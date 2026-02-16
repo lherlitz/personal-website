@@ -2,6 +2,14 @@
 // Luc Herlitz — Personal Website
 // ============================================
 
+// Email obfuscation — assembled at runtime, never in HTML
+function revealEmail(e) {
+  e.preventDefault();
+  const u = 'i.am';
+  const d = 'lucherlitz.me';
+  window.location.href = 'mai' + 'lto:' + u + '@' + d;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Lucide icons
   lucide.createIcons();
