@@ -19,9 +19,10 @@
   --text: #ededed;
   --text-muted: #888888;
   --text-subtle: #555555;
-  --accent: #3b6ef5;
-  --accent-dim: rgba(59, 110, 245, 0.1);
-  --accent-glow: rgba(59, 110, 245, 0.15);
+  --accent: #092475;
+  --accent-light: #4a80d4;
+  --accent-dim: rgba(9, 36, 117, 0.2);
+  --accent-glow: rgba(9, 36, 117, 0.35);
   --radius: 0.75rem;
   --radius-sm: 0.5rem;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -46,7 +47,7 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-light);
   text-decoration: none;
   transition: color var(--transition);
 }
@@ -157,9 +158,9 @@ a:hover {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--accent-light);
   background: var(--accent-dim);
-  border: 1px solid rgba(129, 140, 248, 0.2);
+  border: 1px solid rgba(9, 36, 117, 0.4);
   padding: 0.35rem 1rem;
   border-radius: 100px;
   margin-bottom: 1.5rem;
@@ -229,7 +230,7 @@ a:hover {
 }
 
 .btn-primary:hover {
-  background: #6b8df7;
+  background: #4a80d4;
   color: #0a0a0a;
   transform: translateY(-1px);
 }
@@ -264,7 +265,7 @@ a:hover {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--accent);
+  color: var(--accent-light);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 0.75rem;
@@ -318,7 +319,7 @@ a:hover {
   display: block;
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-light);
   letter-spacing: -0.02em;
 }
 
@@ -363,7 +364,7 @@ a:hover {
   height: 15px;
   border-radius: 50%;
   background: var(--bg);
-  border: 2px solid var(--accent);
+  border: 2px solid var(--accent-light);
   z-index: 1;
 }
 
@@ -396,7 +397,7 @@ a:hover {
 .timeline-role {
   display: block;
   font-size: 0.875rem;
-  color: var(--accent);
+  color: var(--accent-light);
   margin-top: 0.25rem;
 }
 
@@ -431,7 +432,7 @@ a:hover {
   content: '→';
   position: absolute;
   left: 0;
-  color: var(--accent);
+  color: var(--accent-light);
   font-weight: 500;
 }
 
@@ -474,7 +475,7 @@ a:hover {
 }
 
 .project-icon {
-  color: var(--accent);
+  color: var(--accent-light);
   margin-bottom: 1.25rem;
 }
 
@@ -540,7 +541,7 @@ a:hover {
 }
 
 .skill-group h3 .icon {
-  color: var(--accent);
+  color: var(--accent-light);
 }
 
 .skill-tags {
@@ -605,8 +606,8 @@ a:hover {
 }
 
 .contact-card:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-light);
+  color: var(--accent-light);
   transform: translateY(-2px);
 }
 
