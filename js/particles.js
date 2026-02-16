@@ -18,7 +18,7 @@
 
   const CONFIG = {
     count: 50,
-    color: '79, 109, 245',    // deep blue accent RGB
+    color: '59, 110, 245',    // true deep blue accent RGB
     maxOpacity: 0.3,
     minRadius: 1,
     maxRadius: 2,

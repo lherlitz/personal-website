@@ -19,9 +19,9 @@
   --text: #ededed;
   --text-muted: #888888;
   --text-subtle: #555555;
-  --accent: #4f6df5;
-  --accent-dim: rgba(79, 109, 245, 0.1);
-  --accent-glow: rgba(79, 109, 245, 0.15);
+  --accent: #3b6ef5;
+  --accent-dim: rgba(59, 110, 245, 0.1);
+  --accent-glow: rgba(59, 110, 245, 0.15);
   --radius: 0.75rem;
   --radius-sm: 0.5rem;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -229,7 +229,7 @@ a:hover {
 }
 
 .btn-primary:hover {
-  background: #7b93f7;
+  background: #6b8df7;
   color: #0a0a0a;
   transform: translateY(-1px);
 }
