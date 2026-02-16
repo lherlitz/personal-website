@@ -512,6 +512,11 @@ a:hover {
   gap: 1.5rem;
 }
 
+/* Let the last skill card span full width when odd count */
+.skills-grid > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
 .skill-group {
   background: var(--surface);
   border: 1px solid var(--border);
