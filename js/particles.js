@@ -18,13 +18,13 @@
 
   const CONFIG = {
     count: 50,
-    color: '90, 144, 224',    // brighter blue accent RGB
-    maxOpacity: 0.45,
-    minRadius: 1,
-    maxRadius: 2.5,
+    color: '106, 158, 239',   // matches --accent-light RGB
+    maxOpacity: 0.5,
+    minRadius: 1.2,
+    maxRadius: 2.8,
     speed: 0.15,               // very slow drift
-    linkDistance: 150,
-    linkOpacity: 0.12,
+    linkDistance: 160,
+    linkOpacity: 0.15,
     mouseRadius: 150,
     mouseRepel: 0.3,
   };
