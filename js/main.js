@@ -58,6 +58,116 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
+  // --- Testimonials: Desktop click-to-pause ---
+  const marqueeWrapper = document.getElementById('marquee-wrapper');
+  if (marqueeWrapper) {
+    marqueeWrapper.addEventListener('click', (e) => {
+      // Don't pause when clicking links inside cards
+      if (e.target.closest('a')) return;
+      marqueeWrapper.classList.toggle('marquee-paused');
+    });
+  }
+
+  // --- Testimonials: Mobile swipe carousel ---
+  const mobileCarousel = document.getElementById('mobile-carousel');
+  if (mobileCarousel && window.innerWidth <= 768) {
+    buildMobileCarousel();
+  }
+
+  // Rebuild on resize crossing the breakpoint
+  let wasMobile = window.innerWidth <= 768;
+  window.addEventListener('resize', () => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile && !wasMobile) buildMobileCarousel();
+    wasMobile = isMobile;
+  });
+
+  function buildMobileCarousel() {
+    const carousel = document.getElementById('mobile-carousel');
+    if (!carousel || carousel.dataset.built) return;
+    carousel.dataset.built = 'true';
+
+    // Collect unique cards (skip duplicates — each column has cards repeated 2x)
+    const allCards = document.querySelectorAll('.marquee-column');
+    const uniqueCards = [];
+    allCards.forEach(col => {
+      const scroll = col.querySelector('.marquee-scroll');
+      const cards = scroll.querySelectorAll('.rec-card');
+      // First half are originals, second half are duplicates
+      const half = cards.length / 2;
+      for (let i = 0; i < half; i++) {
+        uniqueCards.push(cards[i].cloneNode(true));
+      }
+    });
+
+    // Build carousel DOM
+    const track = document.createElement('div');
+    track.className = 'carousel-track';
+
+    uniqueCards.forEach(card => {
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide';
+      slide.appendChild(card);
+      track.appendChild(slide);
+    });
+
+    const dots = document.createElement('div');
+    dots.className = 'carousel-dots';
+    uniqueCards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to testimonial ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dots.appendChild(dot);
+    });
+
+    carousel.appendChild(track);
+    carousel.appendChild(dots);
+
+    // Carousel state
+    let current = 0;
+    const total = uniqueCards.length;
+    let startX = 0;
+    let deltaX = 0;
+    let isDragging = false;
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(index, total - 1));
+      track.style.transform = 'translateX(' + (-current * 100) + '%)';
+      dots.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    // Touch events
+    track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      deltaX = 0;
+      isDragging = true;
+      track.classList.add('swiping');
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      deltaX = e.touches[0].clientX - startX;
+      const offset = (-current * 100) + (deltaX / track.offsetWidth * 100);
+      track.style.transform = 'translateX(' + offset + '%)';
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      isDragging = false;
+      track.classList.remove('swiping');
+      const threshold = 50;
+      if (deltaX < -threshold && current < total - 1) {
+        goTo(current + 1);
+      } else if (deltaX > threshold && current > 0) {
+        goTo(current - 1);
+      } else {
+        goTo(current); // snap back
+      }
+    });
+  }
+
   // --- Smooth scroll for anchor links ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
