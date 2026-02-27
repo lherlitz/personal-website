@@ -635,8 +635,11 @@ a:hover {
   flex-shrink: 0;
 }
 
-.rec-card:hover {
-  border-color: var(--text-subtle);
+/* Only apply hover on devices with a real pointer (not touch) */
+@media (hover: hover) {
+  .rec-card:hover {
+    border-color: var(--text-subtle);
+  }
 }
 
 /* Mobile carousel — hidden on desktop, built by JS */
