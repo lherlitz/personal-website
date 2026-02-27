@@ -124,71 +124,36 @@ document.addEventListener('DOMContentLoaded', () => {
     carousel.appendChild(track);
     carousel.appendChild(dots);
 
-    // Carousel state
+    // Dot tracking via native scroll
     let current = 0;
     const total = uniqueCards.length;
-    let startX = 0;
-    let startY = 0;
-    let deltaX = 0;
-    let isDragging = false;
-    let isHorizontal = null; // null = undecided, true/false once locked
 
-    function slideWidth() {
-      return track.children[0] ? track.children[0].offsetWidth : carousel.offsetWidth;
-    }
-
-    function goTo(index) {
-      current = Math.max(0, Math.min(index, total - 1));
-      track.style.transform = 'translateX(' + (-current * slideWidth()) + 'px)';
+    function updateDots(index) {
+      current = index;
       dots.querySelectorAll('.carousel-dot').forEach((d, i) => {
         d.classList.toggle('active', i === current);
       });
     }
 
-    // Touch events
-    track.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      deltaX = 0;
-      isDragging = true;
-      isHorizontal = null;
-      track.classList.add('swiping');
+    // Detect which slide is visible on scroll
+    let scrollTimer = null;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        const slideW = track.children[0].offsetWidth;
+        const index = Math.round(track.scrollLeft / slideW);
+        if (index !== current && index >= 0 && index < total) {
+          updateDots(index);
+        }
+      }, 50);
     }, { passive: true });
 
-    track.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      deltaX = e.touches[0].clientX - startX;
-      const deltaY = e.touches[0].clientY - startY;
-
-      // Lock direction on first significant movement
-      if (isHorizontal === null && (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8)) {
-        isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
-      }
-
-      // Only handle horizontal swipes; let vertical ones scroll the page
-      if (!isHorizontal) return;
-      e.preventDefault();
-
-      const sw = slideWidth();
-      const offset = (-current * sw) + deltaX;
-      track.style.transform = 'translateX(' + offset + 'px)';
-    }, { passive: false });
-
-    track.addEventListener('touchend', () => {
-      const wasDragging = isDragging;
-      isDragging = false;
-      track.classList.remove('swiping');
-      if (!wasDragging || !isHorizontal) { goTo(current); return; }
-
-      const threshold = 50;
-      if (deltaX < -threshold && current < total - 1) {
-        goTo(current + 1);
-      } else if (deltaX > threshold && current > 0) {
-        goTo(current - 1);
-      } else {
-        goTo(current); // snap back
-      }
-    });
+    // Dot click scrolls to slide
+    function goTo(index) {
+      const slideW = track.children[0].offsetWidth;
+      track.scrollTo({ left: index * slideW, behavior: 'smooth' });
+      updateDots(index);
+    }
   }
 
   // --- Smooth scroll for anchor links ---

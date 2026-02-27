@@ -859,27 +859,29 @@ a:hover {
     display: none;
   }
 
-  /* Mobile carousel */
+  /* Mobile carousel — native scroll-snap */
   .mobile-carousel {
     display: block;
     position: relative;
-    overflow: hidden;
-    padding: 0 1rem;
   }
 
   .carousel-track {
     display: flex;
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 1rem;
   }
 
-  .carousel-track.swiping {
-    transition: none;
+  .carousel-track::-webkit-scrollbar {
+    display: none;
   }
 
   .carousel-slide {
-    flex: 0 0 100%;
-    padding: 0 0.5rem;
+    flex: 0 0 calc(100% - 2rem);
+    scroll-snap-align: center;
+    padding: 0 0.25rem;
     box-sizing: border-box;
   }
 
