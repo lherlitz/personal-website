@@ -579,23 +579,8 @@ a:hover {
   animation-play-state: paused !important;
 }
 
-.marquee-wrapper .pause-hint {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
-  font-size: 0.7rem;
-  color: var(--text-subtle);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 5;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-family: var(--font-mono);
-}
-
-.marquee-paused .pause-hint {
-  opacity: 1;
+.marquee-paused {
+  cursor: default;
 }
 
 .marquee-columns {
