@@ -128,12 +128,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let current = 0;
     const total = uniqueCards.length;
     let startX = 0;
+    let startY = 0;
     let deltaX = 0;
     let isDragging = false;
+    let isHorizontal = null; // null = undecided, true/false once locked
+
+    function slideWidth() {
+      return track.children[0] ? track.children[0].offsetWidth : carousel.offsetWidth;
+    }
 
     function goTo(index) {
       current = Math.max(0, Math.min(index, total - 1));
-      track.style.transform = 'translateX(' + (-current * 100) + '%)';
+      track.style.transform = 'translateX(' + (-current * slideWidth()) + 'px)';
       dots.querySelectorAll('.carousel-dot').forEach((d, i) => {
         d.classList.toggle('active', i === current);
       });
@@ -142,21 +148,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Touch events
     track.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
       deltaX = 0;
       isDragging = true;
+      isHorizontal = null;
       track.classList.add('swiping');
     }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
       if (!isDragging) return;
       deltaX = e.touches[0].clientX - startX;
-      const offset = (-current * 100) + (deltaX / track.offsetWidth * 100);
-      track.style.transform = 'translateX(' + offset + '%)';
-    }, { passive: true });
+      const deltaY = e.touches[0].clientY - startY;
+
+      // Lock direction on first significant movement
+      if (isHorizontal === null && (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8)) {
+        isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
+      }
+
+      // Only handle horizontal swipes; let vertical ones scroll the page
+      if (!isHorizontal) return;
+      e.preventDefault();
+
+      const sw = slideWidth();
+      const offset = (-current * sw) + deltaX;
+      track.style.transform = 'translateX(' + offset + 'px)';
+    }, { passive: false });
 
     track.addEventListener('touchend', () => {
+      const wasDragging = isDragging;
       isDragging = false;
       track.classList.remove('swiping');
+      if (!wasDragging || !isHorizontal) { goTo(current); return; }
+
       const threshold = 50;
       if (deltaX < -threshold && current < total - 1) {
         goTo(current + 1);
