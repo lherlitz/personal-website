@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Luc Herlitz
+N:Herlitz;Luc;;;
+TITLE:Product Specialist
+ORG:Camping World of Toledo
+TEL;TYPE=WORK,VOICE:(567) 336-0945
+TEL;TYPE=CELL:(567) 229-2466
+EMAIL;TYPE=WORK:lucas.herlitz@campingworld.com
+URL:https://campingworldoftoledo.com
+ADR;TYPE=WORK:;;28000 Sportsman's Drive;Rossford;OH;43460;United States
+END:VCARD
